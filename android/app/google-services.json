@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "738467966014",
+    "firebase_url": "https://kcalu-3789c-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "kcalu-3789c",
+    "storage_bucket": "kcalu-3789c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:738467966014:android:bc7d003b0031a2854ab56f",
+        "android_client_info": {
+          "package_name": "com.example.kcale"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "738467966014-j1nnsq807kjsk189ha7t8gvmcq60psjh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzu5mO9dqSK0sKbJEBwZUaB7kTWVk-K6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "738467966014-j1nnsq807kjsk189ha7t8gvmcq60psjh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
