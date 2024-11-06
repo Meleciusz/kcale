@@ -1,0 +1,11 @@
+name: menu_repository
+description: Whole menu for the day repository.
+publish_to: none
+
+environment:
+  sdk: '>=2.18.0 <3.0.0'
+
+
+dependencies:
+  cloud_firestore: ^5.4.4
+  connectivity_plus: ^4.0.2
