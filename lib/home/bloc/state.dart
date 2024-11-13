@@ -19,23 +19,27 @@ class MenuState extends Equatable {
   const MenuState({
     this.status = MenuStatus.initial,
     this.menu,
+    this.date,
   });
 
   final MenuStatus status;
   final List<Menu>? menu;
+  final DateTime? date;
 
 
 
   @override
-  List<Object?> get props => [status, menu];
+  List<Object?> get props => [status, menu, date];
 
   MenuState copyWith({
     MenuStatus? status,
     List<Menu>? menu,
+    DateTime? date,
   }){
     return MenuState(
       status: status ?? this.status,
       menu: menu ?? this.menu,
+      date: date ?? this.date,
     );
   }
 }
