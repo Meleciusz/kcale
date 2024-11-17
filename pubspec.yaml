@@ -34,6 +34,8 @@ dependencies:
     path: packages/authorization_repository
   menu_repository:
     path: packages/menu_repository
+  product_repository:
+    path: packages/product_repository
 
   #Calendar
   horizontal_week_calendar: ^0.0.18

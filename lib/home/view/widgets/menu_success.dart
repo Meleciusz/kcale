@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:horizontal_week_calendar/horizontal_week_calendar.dart';
 import 'package:menu_repository/model/model.dart';
+import '../../../products/view/add_product_screen.dart';
 import '../../bloc/bloc.dart';
 
 
@@ -67,6 +68,16 @@ class _MenuSuccessState extends State<MenuSuccess> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const AddProductScreen(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
 
