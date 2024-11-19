@@ -1,8 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kcale/products/bloc/bloc.dart';
+import 'package:product_repository/service/firestore_service.dart';
 import 'authorization/app/bloc_observer.dart';
 import 'authorization/app/view/app.dart';
+import 'package:provider/provider.dart';
 
 
 /*
@@ -16,5 +20,14 @@ Future<void> main() async{
 
   await Firebase.initializeApp();
 
-  runApp(const App());
+  runApp(
+    MultiProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ProductBloc(productRepository: FirestoreProductService()),
+        ),
+      ],
+      child: const App(),
+    ),
+  );
 }

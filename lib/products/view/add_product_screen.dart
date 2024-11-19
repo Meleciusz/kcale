@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kcale/products/bloc/bloc.dart';
 import 'package:product_repository/models/product.dart'; // Import the product model
-import 'package:product_repository/service/firestore_service.dart'; // Import Firestore service
 
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
@@ -93,9 +94,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    // Get Firestore product service from context
-                    final productRepository = context.read<FirestoreProductService>();
-
                     // Create a new product
                     final product = Product(
                       id: '', // Firebase will generate the ID
@@ -106,11 +104,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       Fat: double.tryParse(_fatController.text) ?? 0,
                       Protein: double.tryParse(_proteinController.text) ?? 0,
                       Sugar: double.tryParse(_sugarController.text) ?? 0,
-                      ModifiedDate: DateTime.now(),
+                      ModifiedDate: Timestamp.fromDate(DateTime.now()),
                     );
 
                     // Add product to Firestore
-                    await productRepository.addProduct(product);
+                    context.read<ProductBloc>().add(AddProduct(product: product));
 
                     // Go back to the previous screen
                     Navigator.pop(context);

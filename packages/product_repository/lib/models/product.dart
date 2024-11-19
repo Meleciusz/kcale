@@ -17,7 +17,7 @@ class Product {
 
   num Sugar;
 
-  DateTime ModifiedDate;
+  Timestamp ModifiedDate;
 
   Product({
     required this.id,
@@ -40,7 +40,7 @@ class Product {
     num? Fat,
     num? Protein,
     num? Sugar,
-    DateTime? ModifiedDate,
+    Timestamp? ModifiedDate,
 }){
     return Product(id: id ?? this.id,
         Name: Name ?? this.Name,

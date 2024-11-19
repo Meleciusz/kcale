@@ -2,6 +2,13 @@ part of 'bloc.dart';
 
 enum ProductStatus { initial, loading, success, error }
 
+extension ProductStatusX on ProductStatus {
+  bool get isInitial => this == ProductStatus.initial;
+  bool get isLoading => this == ProductStatus.loading;
+  bool get isSuccess => this == ProductStatus.success;
+  bool get isError => this == ProductStatus.error;
+}
+
 class ProductState extends Equatable {
   final ProductStatus status;
   final List<Product> products;
