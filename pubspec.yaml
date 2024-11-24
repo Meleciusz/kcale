@@ -40,6 +40,8 @@ dependencies:
 
   #additional
   circular_menu: ^4.0.0
+  container_body:
+    path: packages/container_body
 
 
   #Calendar
