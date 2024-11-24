@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:circular_menu/circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:horizontal_week_calendar/horizontal_week_calendar.dart';
 import 'package:menu_repository/model/model.dart';
+import '../../../authorization/app/bloc/app_bloc.dart';
 import '../../../products/view/add_product_screen.dart';
 import '../../bloc/bloc.dart';
 
@@ -29,6 +30,7 @@ class _MenuSuccessState extends State<MenuSuccess> {
   
   @override
   Widget build(BuildContext context) {
+    const mainColor = Color.fromARGB(255, 196, 115, 115);
 
 
     return Scaffold(
@@ -69,17 +71,28 @@ class _MenuSuccessState extends State<MenuSuccess> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const AddProductScreen(),
+      floatingActionButton: CircularMenu(
+          items: [
+            CircularMenuItem(
+                icon: Icons.add,
+                color: Colors.blue,
+                onTap: (){
+                  Navigator.of(context).push(
+                  MaterialPageRoute(
+                  builder: (context) => const AddProductScreen(),
+                   ),
+                  );
+                }
             ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
+            CircularMenuItem(
+                icon: Icons.exit_to_app,
+                color: Colors.grey,
+                onTap: (){
+                  context.read<AppBloc>().add(const AppLogoutRequested());
+                }
+            )
+          ]
+      )
     );
-
   }
 }

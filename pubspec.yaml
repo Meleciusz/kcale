@@ -37,6 +37,11 @@ dependencies:
   product_repository:
     path: packages/product_repository
 
+
+  #additional
+  circular_menu: ^4.0.0
+
+
   #Calendar
   horizontal_week_calendar: ^0.0.18
 
