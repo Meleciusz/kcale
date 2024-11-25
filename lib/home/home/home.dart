@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:menu_repository/menu_repository.dart';
@@ -12,6 +13,8 @@ This class is used to provide bloc and repository to layout
 class Home extends StatelessWidget {
   const Home({super.key});
 
+
+
   static Page<void> page() => const MaterialPage<void>(child: Home());
 
   @override
@@ -24,7 +27,7 @@ class Home extends StatelessWidget {
           MenuBloc(
             menuRepository: context.read<FirestoreMenuService>(),
           )
-            ..add(GetMenu()),
+            ..add(GetMenuWithUserID(userId: FirebaseAuth.instance.currentUser!.uid)),
           child: const Manager(),
         ),
       );

@@ -24,6 +24,7 @@ class _MenuSuccessState extends State<MenuSuccess> {
   late DateTime _selectedDate;
   final DateTime initialDate = DateTime.now();
 
+
   @override
   void initState() {
     super.initState();
@@ -50,7 +51,13 @@ class _MenuSuccessState extends State<MenuSuccess> {
                       setState(() {
                         _selectedDate = newDate;
                       });
-                      context.read<MenuBloc>().add(GetMenuWithDate(date: _selectedDate, dateRepository: _selectedDate));
+                      context.read<MenuBloc>().add(
+                          GetMenuWithDate(
+                              date: _selectedDate,
+                              dateRepository: _selectedDate,
+                              userId: context.read<AppBloc>().state.user.id
+                          )
+                      );
                     }
                   },
                 ),
@@ -99,11 +106,11 @@ class _MenuSuccessState extends State<MenuSuccess> {
                 icon: Icons.bar_chart,
                 color: Colors.redAccent,
                 onTap: (){
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const AddProductScreen(),
-                    ),
-                  );
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const AddProductScreen(),
+                  //   ),
+                  // );
                 }
             )
           ]
