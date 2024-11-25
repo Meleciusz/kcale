@@ -11,12 +11,6 @@ class MenuEvent extends Equatable {
 }
 
 
-class GetMenu extends MenuEvent {
-
-  @override
-  List<Object?> get props => [];
-}
-
 class GetMenuWithUserID extends MenuEvent {
   GetMenuWithUserID({
     required this.userId,

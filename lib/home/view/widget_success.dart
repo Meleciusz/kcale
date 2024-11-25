@@ -62,21 +62,86 @@ class _MenuSuccessState extends State<MenuSuccess> {
                   },
                 ),
 
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        for (var menuItem in widget.menu!)
-                          Container(
-                            margin: EdgeInsets.all(8),
-                            child: Text(
-                              menuItem.Names.toString() + _selectedDate.toString(),
-                            ),
+                widget.menu != null && widget.menu!.isNotEmpty
+                    ? SizedBox(
+                  height: MediaQuery.of(context).size.height * .15,
+                  child: ListView.separated(
+                    separatorBuilder: (_, __) => const SizedBox(width: 16),
+                    itemCount: widget.menu!.first.Names.length,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                      return  Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12.0),
+                          border: Border.all(
+                            color: Colors.grey.shade300,
+                            width: 1.5,
                           ),
-                      ],
-                    ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          widget.menu!.first.Names[index],
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+
+                      //   SizedBox(
+                      //   width: 60,
+                      //   child: Text(
+                      //     widget.menu!.first.Names[index],
+                      //     style: const TextStyle(
+                      //       fontSize: 13.0,
+                      //       fontWeight: FontWeight.bold,
+                      //       color: Colors.black87,
+                      //     ),
+                      //     textAlign: TextAlign.center,
+                      //     maxLines: 2,
+                      //   ),
+                      // );
+                    },
                   ),
-                ),
+                )
+                    : SizedBox.shrink(),
+
+
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height * .15,
+                //   child: ListView.separated(
+                //       separatorBuilder: (_, __) => const SizedBox(width: 16),
+                //       itemCount: widget.menu!.length
+                //       scrollDirection: Axis.horizontal,
+                //       itemBuilder: (context, index){
+                //         return SizedBox(
+                //             width: 60,
+                //             child: Text(
+                //               widget.menu!.Names[index],
+                //               style: const TextStyle(
+                //                   fontSize: 13.0,
+                //                   fontWeight: FontWeight.bold,
+                //                   color: Colors.black87),
+                //               textAlign: TextAlign.center,
+                //               maxLines: 2,
+                //             ),
+                //           );
+                //       }
+                //   ),
+                // )
+
               ],
             ),
           ],

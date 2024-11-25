@@ -16,23 +16,12 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
   MenuBloc({
     required this.menuRepository
   }) : super(const MenuState()){
-    on<GetMenu>(_mapGetMenuEvent);
     on<GetMenuWithDate>(_mapGetMenuWithDateEvent);
     on<GetMenuWithUserID>(_mapGetMenuWithUserIDEvent);
   }
 
   final FirestoreMenuService menuRepository;
 
-
-  void _mapGetMenuEvent(GetMenu event, Emitter<MenuState> emit) async {
-    try {
-      emit(state.copyWith(status: MenuStatus.loading));
-      final menu = await menuRepository.getMenu();
-      emit(state.copyWith(status: MenuStatus.success, menu: menu, date: DateTime.now()));
-    } catch (e) {
-      emit(state.copyWith(status: MenuStatus.error));
-    }
-  }
 
   void _mapGetMenuWithUserIDEvent(GetMenuWithUserID event, Emitter<MenuState> emit) async {
     try {

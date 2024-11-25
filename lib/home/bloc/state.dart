@@ -20,7 +20,7 @@ class MenuState extends Equatable {
     this.status = MenuStatus.initial,
     this.menu,
     this.date,
-    this.userId
+    this.userId,
   });
 
   final MenuStatus status;
