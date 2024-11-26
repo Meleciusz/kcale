@@ -100,20 +100,6 @@ class _MenuSuccessState extends State<MenuSuccess> {
                           textAlign: TextAlign.center,
                         ),
                       );
-
-                      //   SizedBox(
-                      //   width: 60,
-                      //   child: Text(
-                      //     widget.menu!.first.Names[index],
-                      //     style: const TextStyle(
-                      //       fontSize: 13.0,
-                      //       fontWeight: FontWeight.bold,
-                      //       color: Colors.black87,
-                      //     ),
-                      //     textAlign: TextAlign.center,
-                      //     maxLines: 2,
-                      //   ),
-                      // );
                     },
                   ),
                 )

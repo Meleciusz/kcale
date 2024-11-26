@@ -15,9 +15,11 @@ class GetMenuWithTime extends StatsEvent {
   GetMenuWithTime({
     required this.userId,
     required this.time,
+    required this.actualIndex,
   });
   final String userId;
   final int time;
+  final int actualIndex;
 
   @override
   List<Object?> get props => [];

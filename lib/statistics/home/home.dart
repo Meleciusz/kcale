@@ -27,7 +27,7 @@ class HomeStats extends StatelessWidget {
           StatsBloc(
             menuRepository: context.read<FirestoreMenuService>(),
           )
-            ..add(GetMenuWithTime(userId: FirebaseAuth.instance.currentUser!.uid, time: 0)),
+            ..add(GetMenuWithTime(userId: FirebaseAuth.instance.currentUser!.uid, time: 0, actualIndex: 0)),
           child: const Manager(),
         ),
       );

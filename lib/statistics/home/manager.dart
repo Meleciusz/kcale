@@ -16,7 +16,7 @@ class Manager extends StatelessWidget {
     return BlocBuilder<StatsBloc, StatsState>(
         builder: (context, state) {
           return state.status.isSuccess
-              ? WidgetSuccessStats(menu: state.menu)
+              ? WidgetSuccessStats(menu: state.menu, actualIndex: state.actualIndex,)
               : state.status.isLoading
               ? const Center(child: CircularProgressIndicator(),)
               : state.status.isError

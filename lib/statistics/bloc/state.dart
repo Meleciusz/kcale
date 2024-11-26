@@ -21,12 +21,14 @@ class StatsState extends Equatable {
     this.menu,
     this.date,
     this.userId,
+    this.actualIndex,
   });
 
   final StatsStatus status;
   final List<Menu>? menu;
   final DateTime? date;
   final String? userId;
+  final int? actualIndex;
 
 
 
@@ -38,12 +40,14 @@ class StatsState extends Equatable {
     List<Menu>? menu,
     DateTime? date,
     String? userId,
+    int? actualIndex,
   }){
     return StatsState(
       status: status ?? this.status,
       menu: menu ?? this.menu,
       date: date ?? this.date,
       userId: userId?? this.userId,
+      actualIndex: actualIndex?? this.actualIndex,
     );
   }
 }

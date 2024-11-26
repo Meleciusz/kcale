@@ -25,7 +25,7 @@ class StatsBloc extends Bloc<StatsEvent, StatsState> {
     try {
       emit(state.copyWith(status: StatsStatus.loading));
       final menu = await menuRepository.getMenuWithTime(event.userId, event.time);
-      emit(state.copyWith(status: StatsStatus.success, menu: menu));
+      emit(state.copyWith(status: StatsStatus.success, menu: menu, actualIndex: event.actualIndex));
     } catch (e) {
       emit(state.copyWith(status: StatsStatus.error));
     }

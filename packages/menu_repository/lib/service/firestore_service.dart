@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:intl/intl.dart';
 import '../model/model.dart';
 
 
@@ -40,13 +41,18 @@ class FirestoreMenuService {
   Future<List<Menu>> getMenuWithUserID(String userId) async {
 
     final DateTime now = DateTime.now();
-    String nowDate = '${now.year}-${now.month}-${now.day}';
+    String year = '${now.year}';
+    String month = now.month.toString().padLeft(2, '0');
+    String day = now.day.toString().padLeft(2, '0');
+
+    String formattedDate = '$year$month$day';
+
+    num dateNum = int.parse(formattedDate);
 
     final querySnapshot = await _menuCollection
-        .where('Date', isEqualTo: nowDate)
+        .where('Date', isEqualTo: dateNum)
         .where('UserID', isEqualTo: userId)
         .get();
-
 
       return querySnapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -70,10 +76,16 @@ class FirestoreMenuService {
   //function to get menu with date
   Future<List<Menu>> getMenuWithDate(DateTime date, String userId) async {
 
-    String dateString = '${date.year}-${date.month}-${date.day}';
+    String year = '${date.year}';
+    String month = date.month.toString().padLeft(2, '0');
+    String day = date.day.toString().padLeft(2, '0');
+
+    String formattedDate = '$year$month$day';
+
+    num dateNum = int.parse(formattedDate);
 
     final querySnapshot = await _menuCollection
-        .where('Date', isEqualTo: dateString)
+        .where('Date', isEqualTo: dateNum)
         .where('UserID', isEqualTo: userId)
         .get();
 
@@ -98,13 +110,22 @@ class FirestoreMenuService {
   //function to get menu with time| time = 0, when stats from today, 7 when from week, and 30 when from month
   Future<List<Menu>> getMenuWithTime(String userId, int time) async {
 
-    final DateTime now = DateTime.now();
-    now.subtract(Duration(days: time));
-    String nowDate = '${now.year}-${now.month}-${now.day}';
+    DateTime now = DateTime.now();
+    now = now.subtract(Duration(days: time));
+
+
+    String year = '${now.year}';
+    String month = now.month.toString().padLeft(2, '0');
+    String day = now.day.toString().padLeft(2, '0');
+
+    String formattedDate = '$year$month$day';
+
+    num dateNum = int.parse(formattedDate);
+
 
     final querySnapshot = await _menuCollection
         .where('UserID', isEqualTo: userId)
-        .where('Time', isGreaterThanOrEqualTo: nowDate)
+        .where('Date', isGreaterThanOrEqualTo: dateNum)
         .get();
 
 

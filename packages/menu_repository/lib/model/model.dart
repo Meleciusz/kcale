@@ -30,7 +30,7 @@ class Menu{
   num SugarSum;
 
   //date when the menu was created
-  String Date;
+  num Date;
 
   Menu({
     required this.id,
@@ -53,7 +53,7 @@ class Menu{
     num? FatSum,
     num? ProteinSum,
     num? SugarSum,
-    String? Date,
+    num? Date,
   }){
     return Menu(
         id: id ?? this.id,
