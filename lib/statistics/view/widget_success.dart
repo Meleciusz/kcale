@@ -46,15 +46,15 @@ class _WidgetSuccessState extends State<WidgetSuccessStats> {
   Widget build(BuildContext context) {
 
      final List<Widget> screens = <Widget>[
-       StatsScreen(title: 'Statystyki Dzienne', menu: widget.menu!),
-       StatsScreen(title: 'Statystyki Tygodniowe', menu: widget.menu!),
-       StatsScreen(title: 'Statystyki Miesięczne', menu: widget.menu!),
+       StatsScreen(time: 0, menu: widget.menu!),
+       StatsScreen(time: 7, menu: widget.menu!),
+       StatsScreen(time: 30, menu: widget.menu!),
     ];
 
     return MaterialApp(
         home: Scaffold(
           appBar: AppBar(
-            title: const Text('Statystyki'),
+            title: const Center(child: Text('Statystyki'),),
           ),
           body: Center(
             child: screens.elementAt(selectedIndex),
