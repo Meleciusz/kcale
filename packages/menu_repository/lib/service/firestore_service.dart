@@ -94,4 +94,34 @@ class FirestoreMenuService {
       );
     }).toList();
   }
+
+  //function to get menu with time| time = 0, when stats from today, 7 when from week, and 30 when from month
+  Future<List<Menu>> getMenuWithTime(String userId, int time) async {
+
+    final DateTime now = DateTime.now();
+    now.subtract(Duration(days: time));
+    String nowDate = '${now.year}-${now.month}-${now.day}';
+
+    final querySnapshot = await _menuCollection
+        .where('UserID', isEqualTo: userId)
+        .where('Time', isGreaterThanOrEqualTo: nowDate)
+        .get();
+
+
+    return querySnapshot.docs.map((doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      List<String> names = List<String>.from(data['Names']);
+      return Menu(
+        id: doc.id,
+        userId: data['UserID'],
+        Names: names,
+        CaloriesSum: data['CaloriesSum'],
+        CarbohydrateSum: data['CarbohydrateSum'],
+        FatSum: data['FatSum'],
+        ProteinSum: data['ProteinSum'],
+        SugarSum: data['SugarSum'],
+        Date: data['Date'],
+      );
+    }).toList();
+  }
 }

@@ -3,6 +3,7 @@ import 'package:container_body/container_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:horizontal_week_calendar/horizontal_week_calendar.dart';
+import '../../statistics/home/home.dart';
 import 'widgets/header_title.dart';
 import 'package:menu_repository/model/model.dart';
 import '../../authorization/app/bloc/app_bloc.dart';
@@ -118,30 +119,6 @@ class _MenuSuccessState extends State<MenuSuccess> {
                 )
                     : SizedBox.shrink(),
 
-
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height * .15,
-                //   child: ListView.separated(
-                //       separatorBuilder: (_, __) => const SizedBox(width: 16),
-                //       itemCount: widget.menu!.length
-                //       scrollDirection: Axis.horizontal,
-                //       itemBuilder: (context, index){
-                //         return SizedBox(
-                //             width: 60,
-                //             child: Text(
-                //               widget.menu!.Names[index],
-                //               style: const TextStyle(
-                //                   fontSize: 13.0,
-                //                   fontWeight: FontWeight.bold,
-                //                   color: Colors.black87),
-                //               textAlign: TextAlign.center,
-                //               maxLines: 2,
-                //             ),
-                //           );
-                //       }
-                //   ),
-                // )
-
               ],
             ),
           ],
@@ -171,11 +148,11 @@ class _MenuSuccessState extends State<MenuSuccess> {
                 icon: Icons.bar_chart,
                 color: Colors.redAccent,
                 onTap: (){
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const AddProductScreen(),
-                  //   ),
-                  // );
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const HomeStats(),
+                    ),
+                  );
                 }
             )
           ]
