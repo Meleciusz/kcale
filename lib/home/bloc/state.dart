@@ -20,11 +20,13 @@ class MenuState extends Equatable {
     this.status = MenuStatus.initial,
     this.menu,
     this.date,
+    this.userId,
   });
 
   final MenuStatus status;
   final List<Menu>? menu;
   final DateTime? date;
+  final String? userId;
 
 
 
@@ -35,11 +37,13 @@ class MenuState extends Equatable {
     MenuStatus? status,
     List<Menu>? menu,
     DateTime? date,
+    String? userId,
   }){
     return MenuState(
       status: status ?? this.status,
       menu: menu ?? this.menu,
       date: date ?? this.date,
+      userId: userId?? this.userId,
     );
   }
 }

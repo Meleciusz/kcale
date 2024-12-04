@@ -10,24 +10,24 @@ import 'manager.dart';
 This is the home page
 This class is used to provide bloc and repository to layout
  */
-class Home extends StatelessWidget {
-  const Home({super.key});
+class HomeStats extends StatelessWidget {
+  const HomeStats({super.key});
 
 
 
-  static Page<void> page() => const MaterialPage<void>(child: Home());
+  static Page<void> page() => const MaterialPage<void>(child: HomeStats());
 
   @override
   Widget build(BuildContext context) {
     return
       RepositoryProvider(
         create: (context) => FirestoreMenuService(),
-        child: BlocProvider<MenuBloc>(
+        child: BlocProvider<StatsBloc>(
           create: (context) =>
-          MenuBloc(
+          StatsBloc(
             menuRepository: context.read<FirestoreMenuService>(),
           )
-            ..add(GetMenuWithUserID(userId: FirebaseAuth.instance.currentUser!.uid)),
+            ..add(GetMenuWithTime(userId: FirebaseAuth.instance.currentUser!.uid, time: 0, actualIndex: 0)),
           child: const Manager(),
         ),
       );

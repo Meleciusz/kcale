@@ -8,6 +8,9 @@ class Menu{
   //id of menu - unique identifier
   String id;
 
+  //id of adding User
+  String userId;
+
   //name of products
   List<String> Names;
 
@@ -27,10 +30,11 @@ class Menu{
   num SugarSum;
 
   //date when the menu was created
-  Timestamp Date;
+  num Date;
 
   Menu({
     required this.id,
+    required this.userId,
     required this.Names,
     required this.CaloriesSum,
     required this.CarbohydrateSum,
@@ -42,20 +46,22 @@ class Menu{
 
   Menu copyWith({
     String? id,
+    String? userId,
     List<String>? Names,
     num? CaloriesSum,
     num? CarbohydrateSum,
     num? FatSum,
     num? ProteinSum,
     num? SugarSum,
-    Timestamp? Date,
+    num? Date,
   }){
     return Menu(
         id: id ?? this.id,
-        Names: Names ?? this.Names,
-        CaloriesSum: CaloriesSum ?? this.CaloriesSum,
-        CarbohydrateSum: CarbohydrateSum ?? this.CarbohydrateSum,
-        FatSum: FatSum ?? this.FatSum,
+        userId: userId?? this.userId,
+        Names: Names?? this.Names,
+        CaloriesSum: CaloriesSum?? this.CaloriesSum,
+        CarbohydrateSum: CarbohydrateSum?? this.CarbohydrateSum,
+        FatSum: FatSum?? this.FatSum,
         ProteinSum: ProteinSum ?? this.ProteinSum,
         SugarSum: SugarSum ?? this.SugarSum,
         Date: Date?? this.Date,

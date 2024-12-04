@@ -1,1 +1,1 @@
-export 'widgets/menu_success.dart';
+export 'widget_success.dart';
