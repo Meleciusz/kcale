@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kcale/products/bloc/bloc.dart';
+import 'package:kcale/products/view/product_list_screen.dart';
 import 'package:product_repository/service/firestore_service.dart';
 import 'authorization/app/bloc_observer.dart';
 import 'authorization/app/view/app.dart';
@@ -24,8 +25,13 @@ Future<void> main() async{
     MultiProvider(
       providers: [
         BlocProvider(
-          create: (context) => ProductBloc(productRepository: FirestoreProductService()),
-        ),
+        create: (context) {
+         final bloc = ProductBloc(productRepository: FirestoreProductService());
+        bloc.add(LoadProducts()); // Wywołanie wstępne
+        return bloc;
+        },
+         child: ProductListScreen(),
+        )
       ],
       child: const App(),
     ),
