@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:intl/intl.dart';
 import '../model/model.dart';
 
 
@@ -144,5 +143,88 @@ class FirestoreMenuService {
         Date: data['Date'],
       );
     }).toList();
+  }
+
+  Future<void> addMenu(Menu menu) async {
+    try {
+      await _menuCollection.add({
+        'UserID': menu.userId,
+        'Names': menu.Names,
+        'CaloriesSum': menu.CaloriesSum,
+        'CarbohydrateSum': menu.CarbohydrateSum,
+        'FatSum': menu.FatSum,
+        'ProteinSum': menu.ProteinSum,
+        'SugarSum': menu.SugarSum,
+        'Date': menu.Date,
+      });
+      print("Menu successfully added!");
+    } catch (e) {
+      print("Error adding menu: $e");
+    }
+  }
+
+  Future<void> updateMenu(Menu menu) async {
+    try {
+      await _menuCollection.doc(menu.id).update({
+        'Names': menu.Names,
+        'CaloriesSum': menu.CaloriesSum,
+        'CarbohydrateSum': menu.CarbohydrateSum,
+        'FatSum': menu.FatSum,
+        'ProteinSum': menu.ProteinSum,
+        'SugarSum': menu.SugarSum,
+      });
+      print("Menu successfully updated!");
+    } catch (e) {
+      print("Error updating menu: $e");
+    }
+  }
+
+  Future<void> removeProductFromMenu(String menuId, String productName) async {
+    try {
+      final menuDoc = FirebaseFirestore.instance.collection('menus').doc(menuId);
+
+      final menuSnapshot = await menuDoc.get();
+      if (menuSnapshot.exists) {
+        final data = menuSnapshot.data();
+        if (data != null) {
+          List<dynamic> names = data['Names'] ?? [];
+
+          if (names.contains(productName)) {
+            names.remove(productName);
+
+            await menuDoc.update({
+              'Names': names,
+            });
+          }
+        }
+      }
+    } catch (e) {
+      print('Error removing product from menu: $e');
+    }
+  }
+
+  Future<Menu?> getMenuForDateAndUser(int date, String userId) async {
+    final querySnapshot = await _menuCollection
+        .where('Date', isEqualTo: date)
+        .where('UserID', isEqualTo: userId)
+        .limit(1)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      final doc = querySnapshot.docs.first;
+      final data = doc.data() as Map<String, dynamic>;
+      return Menu(
+        id: doc.id,
+        userId: data['UserID'],
+        Names: List<String>.from(data['Names']),
+        CaloriesSum: data['CaloriesSum'],
+        CarbohydrateSum: data['CarbohydrateSum'],
+        FatSum: data['FatSum'],
+        ProteinSum: data['ProteinSum'],
+        SugarSum: data['SugarSum'],
+        Date: data['Date'],
+      );
+    }
+    return null;
   }
 }

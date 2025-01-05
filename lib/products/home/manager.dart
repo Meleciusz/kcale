@@ -13,10 +13,8 @@ class Manager extends StatelessWidget {
         print("Current state: ${state.status}");
 
         if (state.status.isSuccess) {
-          // Użyj BlocProvider bezpośrednio na poziomie Managera,
-          // aby przekazać ProductBloc do AddProductScreen
           return BlocProvider.value(
-            value: context.read<ProductBloc>(),  // Przekazujemy istniejący bloc
+            value: context.read<ProductBloc>(),
             child: const AddProductScreen(),
           );
         } else if (state.status.isLoading) {

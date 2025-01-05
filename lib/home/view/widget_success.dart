@@ -25,11 +25,6 @@ class MenuSuccess extends StatefulWidget {
 class _MenuSuccessState extends State<MenuSuccess> {
   late DateTime _selectedDate;
   final DateTime initialDate = DateTime.now();
-  Map<String, List<Product>> meals = {
-    'Śniadanie': [],
-    'Obiad': [],
-    'Kolacja': []
-  };
 
   @override
   void initState() {
@@ -65,46 +60,128 @@ class _MenuSuccessState extends State<MenuSuccess> {
                   }
                 },
               ),
-              // Wyświetlanie posiłków i dodawanie produktów
-              ...meals.entries.map((entry) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(vertical: 8.0),
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12.0),
-                    border: Border.all(
-                      color: Colors.grey.shade300,
-                      width: 1.5,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        entry.key,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge
-                            ?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+              const SizedBox(height: 16),
+              BlocBuilder<MenuBloc, MenuState>(
+                builder: (context, state) {
+                  if (state.status == MenuStatus.loading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state.status == MenuStatus.success) {
+                    final menu = state.menu;
+                    if (menu != null && menu.isNotEmpty) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 8),
+                          ...menu.map((menuItem) {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(vertical: 8.0),
+                              padding: const EdgeInsets.all(16.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12.0),
+                                border: Border.all(
+                                  color: Colors.grey.shade300,
+                                  width: 1.5,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 4),
+                                  ...menuItem.Names.map((name) {
+                                    return Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          ' $name',
+                                          style: Theme.of(context).textTheme.titleLarge,
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.delete, color: Colors.red),
+                                          onPressed: () {
+                                            final productToRemove = Product(
+                                              id: 'id',
+                                              Name: name,
+                                              Weight: 0,
+                                              Calories: 0,
+                                              Carbohydrates: 0,
+                                              Fat: 0,
+                                              Protein: 0,
+                                              Sugar: 0,
+                                            );
+                                            context.read<MenuBloc>().add(
+                                              RemoveProductFromMenu(
+                                                product: productToRemove,
+                                                date: _selectedDate,
+                                                userId: context.read<AppBloc>().state.user.id,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  }).toList(),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        ],
+                      );
+                    } else {
+                      return const Text('No products for this day.');
+                    }
+                  } else {
+                    return const Text('Loading menu error.');
+                  }
+                },
+              ),
+              const SizedBox(height: 16),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    final shouldRefresh = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => MealProductListScreen(
+                          date: _selectedDate,
+                          userId: context.read<AppBloc>().state.user.id,
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      // Wyświetlanie produktów w posiłku
-                    ],
+                    );
+                    if (shouldRefresh == true) {
+                      await Future.delayed(const Duration(milliseconds: 100));
+                      context.read<MenuBloc>().add(
+                        GetMenuWithDate(
+                          date: _selectedDate,
+                          dateRepository: _selectedDate,
+                          userId: context.read<AppBloc>().state.user.id,
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0,
+                      vertical: 12.0,
+                    ),
                   ),
-                );
-              }),
+                  child: const Text(
+                    'Add Product',
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                ),
+              ),
             ],
           ),
         ],
@@ -138,14 +215,14 @@ class _MenuSuccessState extends State<MenuSuccess> {
             ),
           ),
           Align(
-            alignment: Alignment.bottomLeft, // Wyrównanie przycisku w lewym dolnym rogu
+            alignment: Alignment.bottomLeft,
             child: Padding(
-              padding: const EdgeInsets.only(left: 16.0), // Padding dla przycisku
+              padding: const EdgeInsets.only(left: 16.0),
               child: IconButton(
                 icon: const Icon(
-                  Icons.dining_outlined, // Ikona listy, która symbolizuje listę produktów
-                  color: Colors.green, // Kolor ikony
-                  size: 60.0, // Rozmiar ikony
+                  Icons.dining_outlined,
+                  color: Colors.green,
+                  size: 60.0,
                 ),
                 onPressed: () {
                   Navigator.of(context).push(
@@ -156,7 +233,7 @@ class _MenuSuccessState extends State<MenuSuccess> {
                 },
               ),
             ),
-          )
+          ),
         ],
       ),
     );

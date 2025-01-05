@@ -17,7 +17,6 @@ class EditProductScreen extends StatefulWidget {
 class _EditProductScreenState extends State<EditProductScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  // Text controllers for form fields
   final _nameController = TextEditingController();
   final _caloriesController = TextEditingController();
   final _proteinController = TextEditingController();
@@ -29,7 +28,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
   void initState() {
     super.initState();
 
-    // Initialize controllers with current product values
     _nameController.text = widget.product.Name;
     _caloriesController.text = widget.product.Calories.toString();
     _proteinController.text = widget.product.Protein.toString();
@@ -40,7 +38,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   @override
   void dispose() {
-    // Dispose the controllers when screen is disposed
     _nameController.dispose();
     _caloriesController.dispose();
     _proteinController.dispose();
@@ -110,7 +107,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    // Create a new product with updated values
                     final updatedProduct = widget.product.copyWith(
                       Name: _nameController.text,
                       Calories: int.tryParse(_caloriesController.text) ?? 0,
@@ -120,10 +116,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       Sugar: double.tryParse(_sugarController.text) ?? 0,
                     );
 
-                    // Update product in Firestore
                     context.read<ProductBloc>().add(UpdateProduct(product: updatedProduct));
 
-                    // Go back to the previous screen
                     Navigator.pop(context);
                   }
                 },

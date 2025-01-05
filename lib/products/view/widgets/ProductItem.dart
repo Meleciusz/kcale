@@ -4,13 +4,13 @@ import 'package:product_repository/models/product.dart';
 class ProductItem extends StatelessWidget {
   final Product product;
   final VoidCallback onDelete;
-  final VoidCallback onEdit;  // Dodanie callbacka dla edycji
+  final VoidCallback onEdit;
 
   const ProductItem({
     super.key,
     required this.product,
     required this.onDelete,
-    required this.onEdit,  // Dodanie parametru onEdit
+    required this.onEdit,
   });
 
   @override
@@ -33,15 +33,13 @@ class ProductItem extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Przycisk edycji
             IconButton(
               icon: const Icon(Icons.edit),
-              onPressed: onEdit, // Wywołanie callbacka dla edycji
+              onPressed: onEdit,
             ),
-            // Przycisk usuwania
             IconButton(
               icon: const Icon(Icons.delete),
-              onPressed: onDelete, // Wywołanie callbacka dla usuwania
+              onPressed: onDelete,
             ),
           ],
         ),

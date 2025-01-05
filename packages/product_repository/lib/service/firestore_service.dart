@@ -12,7 +12,6 @@ class FirestoreProductService {
     var connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult != ConnectivityResult.none) {
 
-      //if device has internet connection, clear firestore cache
       await clearFirestoreCache();
     }
   }
@@ -41,8 +40,7 @@ class FirestoreProductService {
         Carbohydrates: data['Carbohydrates'],
         Fat: data['Fat'],
         Protein: data['Protein'],
-        Sugar: data['Sugar'],
-        ModifiedDate: data['ModifiedDate'],
+        Sugar: data['Sugar']
       );
     }).toList();
   }
@@ -56,8 +54,7 @@ class FirestoreProductService {
         'Carbohydrates': product.Carbohydrates,
         'Fat': product.Fat,
         'Protein': product.Protein,
-        'Sugar': product.Sugar,
-        'ModifiedDate': product.ModifiedDate,
+        'Sugar': product.Sugar
       });
     } catch (e){
       print('Error adding product: $e');
@@ -73,8 +70,7 @@ class FirestoreProductService {
         'Carbohydrates': product.Carbohydrates,
         'Fat': product.Fat,
         'Protein': product.Protein,
-        'Sugar': product.Sugar,
-        'ModifiedDate': product.ModifiedDate,
+        'Sugar': product.Sugar
       });
     } catch (e){
       print('Error updating product: $e');

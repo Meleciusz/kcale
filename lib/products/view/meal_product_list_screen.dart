@@ -1,21 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kcale/products/view/product_details.dart';
 import 'package:kcale/products/view/widgets/MealProductItem.dart';
-
+import '../../home/bloc/bloc.dart';
 import '../bloc/bloc.dart';
 
 class MealProductListScreen extends StatelessWidget {
-  final String mealType; // Typ posiłku, do którego dodajemy produkt
-
-  const MealProductListScreen({super.key, required this.mealType});
+  final DateTime date;
+  final String userId;
+  const MealProductListScreen({super.key, required this.date, required this.userId});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Wybierz produkt do $mealType'),
-      ),
+      appBar: AppBar(),
       body: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
           if (state.status == ProductStatus.loading) {
@@ -28,9 +27,20 @@ class MealProductListScreen extends StatelessWidget {
                 final product = products[index];
                 return ProductItem(
                   product: product,
-                  onTap: () {
-                    // Po kliknięciu dodajemy produkt do danego posiłku
-                    Navigator.pop(context, product); // Zwróć produkt do poprzedniego ekranu
+                  onTap: () async {
+                    final shouldRefresh = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ProductDetailsScreen(
+                          product: product,
+                          date: date,
+                          userId: userId,
+                        ),
+                      ),
+                    );
+
+                    if (shouldRefresh == true) {
+                      Navigator.pop(context, true);
+                    }
                   },
                 );
               },
@@ -38,7 +48,7 @@ class MealProductListScreen extends StatelessWidget {
           } else {
             return Center(
               child: Text(
-                state.message ?? 'Błąd podczas ładowania produktów',
+                state.message ?? 'Products loading error.',
                 style: const TextStyle(color: Colors.red),
               ),
             );

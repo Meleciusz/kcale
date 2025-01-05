@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kcale/products/view/widgets/ProductItem.dart';
-import 'package:kcale/products/view/add_product_screen.dart'; // Import widoku dodawania produktu
+import 'package:kcale/products/view/add_product_screen.dart';
 import 'package:kcale/products/bloc/bloc.dart';
-import 'edit_product_screen.dart'; // Import eventów i stanów
+import 'edit_product_screen.dart';
 
 class ProductListScreen extends StatelessWidget {
   const ProductListScreen({super.key});
@@ -12,7 +12,7 @@ class ProductListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lista Produktów'),
+        title: const Text('Products list'),
       ),
       body: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
@@ -27,11 +27,9 @@ class ProductListScreen extends StatelessWidget {
                 return ProductItem(
                   product: product,
                   onDelete: () {
-                    // Usuwanie produktu
                     context.read<ProductBloc>().add(DeleteProduct(productId: product.id));
                   },
                   onEdit: () {
-                    // Nawigacja do ekranu edycji produktu
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => EditProductScreen(product: product),
@@ -44,7 +42,7 @@ class ProductListScreen extends StatelessWidget {
           } else {
             return Center(
               child: Text(
-                state.message ?? 'Błąd podczas ładowania produktów',
+                state.message ?? 'Error during products loading.',
                 style: const TextStyle(color: Colors.red),
               ),
             );
@@ -52,20 +50,19 @@ class ProductListScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: Align(
-        alignment: Alignment.bottomLeft, // Wyrównanie przycisku w lewym dolnym rogu
+        alignment: Alignment.bottomLeft,
         child: Padding(
-          padding: const EdgeInsets.only(left: 25.0, bottom: 16.0), // Padding dla przycisku
+          padding: const EdgeInsets.only(left: 25.0, bottom: 16.0),
           child: FloatingActionButton(
             onPressed: () {
-              // Nawigacja do ekranu dodawania produktu
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const AddProductScreen(),
                 ),
               );
             },
-            child: const Icon(Icons.add), // Ikona przycisku dodawania
-            backgroundColor: Colors.green, // Kolor przycisku
+            child: const Icon(Icons.add),
+            backgroundColor: Colors.green,
           ),
         ),
       ),

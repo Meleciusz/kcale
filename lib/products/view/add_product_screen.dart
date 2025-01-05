@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kcale/products/bloc/bloc.dart';
-import 'package:product_repository/models/product.dart'; // Import the product model
+import 'package:product_repository/models/product.dart';
 
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
@@ -14,7 +13,6 @@ class AddProductScreen extends StatefulWidget {
 class _AddProductScreenState extends State<AddProductScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  // Text controllers for form fields
   final _nameController = TextEditingController();
   final _caloriesController = TextEditingController();
   final _proteinController = TextEditingController();
@@ -24,7 +22,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   void dispose() {
-    // Dispose the controllers when screen is disposed
     _nameController.dispose();
     _caloriesController.dispose();
     _proteinController.dispose();
@@ -94,23 +91,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    // Create a new product
                     final product = Product(
-                      id: '', // Firebase will generate the ID
+                      id: '',
                       Name: _nameController.text,
-                      Weight: 100,  // Fixed weight of 100g
+                      Weight: 100,
                       Calories: int.tryParse(_caloriesController.text) ?? 0,
                       Carbohydrates: double.tryParse(_carbsController.text) ?? 0,
                       Fat: double.tryParse(_fatController.text) ?? 0,
                       Protein: double.tryParse(_proteinController.text) ?? 0,
-                      Sugar: double.tryParse(_sugarController.text) ?? 0,
-                      ModifiedDate: Timestamp.fromDate(DateTime.now()),
+                      Sugar: double.tryParse(_sugarController.text) ?? 0
                     );
 
-                    // Add product to Firestore
                     context.read<ProductBloc>().add(AddProduct(product: product));
 
-                    // Go back to the previous screen
                     Navigator.pop(context);
                   }
                 },

@@ -8,13 +8,14 @@ import 'package:product_repository/service/firestore_service.dart';
 import 'authorization/app/bloc_observer.dart';
 import 'authorization/app/view/app.dart';
 import 'package:provider/provider.dart';
-
+import 'package:menu_repository/service/firestore_service.dart';
+import 'home/bloc/bloc.dart';
 
 /*
  * Main description:
 This is main function, where widgets, observers, blocs and repositories are initialized
  */
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Bloc.observer = const AppBlocObserver();
@@ -25,13 +26,21 @@ Future<void> main() async{
     MultiProvider(
       providers: [
         BlocProvider(
-        create: (context) {
-         final bloc = ProductBloc(productRepository: FirestoreProductService());
-        bloc.add(LoadProducts()); // Wywołanie wstępne
-        return bloc;
-        },
-         child: ProductListScreen(),
-        )
+          create: (context) {
+            final bloc = ProductBloc(productRepository: FirestoreProductService());
+            bloc.add(LoadProducts());
+            return bloc;
+          },
+          child: ProductListScreen(),
+        ),
+
+        BlocProvider(
+          create: (context) {
+            final menuBloc = MenuBloc(menuRepository: FirestoreMenuService());
+            return menuBloc;
+          },
+          child: const App(),
+        ),
       ],
       child: const App(),
     ),
