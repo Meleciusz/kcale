@@ -40,28 +40,28 @@ class StatsScreen extends StatelessWidget {
     String endDate = '${end.year}-${end.month}-${end.day}';
 
     final List<Stats> dane = [
-      Stats('Cukry', allSugars),
-      Stats('Węglowodany', allCarbo),
-      Stats('Tłuszcze', allFats),
-      Stats('Białka', allProteins),
+      Stats('Sugar', allSugars),
+      Stats('Carbohydrates', allCarbo),
+      Stats('Fat', allFats),
+      Stats('Protein', allProteins),
     ];
 
     final List<StatsLinear> daneWykresSlupkowy;
     if(time > 0){
       daneWykresSlupkowy = [
-        StatsLinear('Cukry', allSugars, 100 * time),
-        StatsLinear('Węglowodany', allCarbo, 340 * time),
-        StatsLinear('Tłuszcze', allFats, 70 * time),
-        StatsLinear('Białka', allProteins, 60 * time),
-        StatsLinear('Kalorie', allKcal, 2500 * time),
+        StatsLinear('Sugar', allSugars, 100 * time),
+        StatsLinear('Carbohydrate', allCarbo, 340 * time),
+        StatsLinear('Fat', allFats, 70 * time),
+        StatsLinear('Protein', allProteins, 60 * time),
+        StatsLinear('Calories', allKcal, 2500 * time),
       ];
     }else{
       daneWykresSlupkowy = [
-        StatsLinear('Cukry', allSugars, 100),
-        StatsLinear('Węglowodany', allCarbo, 340),
-        StatsLinear('Tłuszcze', allFats, 70),
-        StatsLinear('Białka', allProteins, 60),
-        StatsLinear('Kalorie', allKcal, 2500),
+        StatsLinear('Sugar', allSugars, 100),
+        StatsLinear('Carbohydrate', allCarbo, 340),
+        StatsLinear('Fat', allFats, 70),
+        StatsLinear('Protein', allProteins, 60),
+        StatsLinear('Calories', allKcal, 2500),
       ];
     }
 
@@ -75,7 +75,7 @@ class StatsScreen extends StatelessWidget {
                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Text(
-                  "Łączna ilość kalorii: $allKcal",
+                  "All calories: $allKcal",
 
               ),
               SfCircularChart(
@@ -96,14 +96,14 @@ class StatsScreen extends StatelessWidget {
                 primaryYAxis: NumericAxis(),
                 series: <CartesianSeries<StatsLinear, String>>[
                   ColumnSeries<StatsLinear, String>(
-                    name: 'Aktualne',
+                    name: 'Current',
                     dataSource: daneWykresSlupkowy,
                     xValueMapper: (StatsLinear stats, _) => stats.name,
                     yValueMapper: (StatsLinear stats, _) => stats.actualValue,
                     color: Colors.blue,
                   ),
                   ColumnSeries<StatsLinear, String>(
-                    name: 'Zalecane',
+                    name: 'Recommended',
                     dataSource: daneWykresSlupkowy,
                     xValueMapper: (StatsLinear stats, _) => stats.name,
                     yValueMapper: (StatsLinear stats, _) => stats.recommendedValue,

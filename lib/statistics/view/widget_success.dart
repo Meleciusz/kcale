@@ -52,11 +52,11 @@ class _WidgetSuccessState extends State<WidgetSuccessStats> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Center(child: Text('Statystyki')),
+          title: const Center(child: Text('Statistics')),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context); // Powrót do poprzedniego ekranu (Menu)
+              Navigator.pop(context);
             },
           ),
         ),
@@ -67,15 +67,15 @@ class _WidgetSuccessState extends State<WidgetSuccessStats> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.today),
-              label: 'Dzień',
+              label: 'Day',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.calendar_today),
-              label: 'Tydzień',
+              label: 'Week',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.calendar_month),
-              label: 'Miesiąc',
+              label: 'Month',
             ),
           ],
           currentIndex: selectedIndex,

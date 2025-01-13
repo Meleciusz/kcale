@@ -84,4 +84,34 @@ class FirestoreProductService {
       print('Error deleting product: $e');
     }
   }
+
+  Future<Product?> getProductByName(String name) async {
+    try {
+      final querySnapshot = await _productCollection
+          .where('Name', isEqualTo: name)
+          .limit(1)
+          .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        return null;
+      }
+
+      final doc = querySnapshot.docs.first;
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+      return Product(
+        id: doc.id,
+        Name: data['Name'],
+        Weight: data['Weight'],
+        Calories: data['Calories'],
+        Carbohydrates: data['Carbohydrates'],
+        Fat: data['Fat'],
+        Protein: data['Protein'],
+        Sugar: data['Sugar'],
+      );
+    } catch (e) {
+      print('Error fetching product by name: $e');
+      return null;
+    }
+  }
 }

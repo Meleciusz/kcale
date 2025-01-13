@@ -52,18 +52,20 @@ class GetMenuWithDate extends MenuEvent {
 }
 
 class RemoveProductFromMenu extends MenuEvent {
-  final Product product;
+  final String productId;
+  final String productName;
   final DateTime date;
   final String userId;
 
   RemoveProductFromMenu({
-    required this.product,
+    required this.productId,
+    required this.productName,
     required this.date,
     required this.userId,
   });
 
   @override
-  List<Object?> get props => [product, date, userId];
+  List<Object?> get props => [productId, productName, date, userId];
 }
 
 

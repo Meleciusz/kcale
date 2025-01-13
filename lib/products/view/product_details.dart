@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart'; // Importuj bibliotekę BLoC
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kcale/home/bloc/bloc.dart';
 import 'package:product_repository/models/product.dart';
-
-import '../../home/view/widget_success.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final Product product;
@@ -34,24 +32,25 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       final scaleFactor = _currentWeight / 100;
 
       _scaledProduct = widget.product.copyWith(
-        Weight: _currentWeight.toDouble(),
-        Calories: (widget.product.Calories * scaleFactor).toDouble(),
-        Carbohydrates: (widget.product.Carbohydrates * scaleFactor).toDouble(),
-        Fat: (widget.product.Fat * scaleFactor).toDouble(),
-        Protein: (widget.product.Protein * scaleFactor).toDouble(),
-        Sugar: (widget.product.Sugar * scaleFactor).toDouble(),
+        Weight: double.parse((_currentWeight).toStringAsFixed(2)),
+        Calories: double.parse((widget.product.Calories * scaleFactor).toStringAsFixed(2)),
+        Carbohydrates: double.parse((widget.product.Carbohydrates * scaleFactor).toStringAsFixed(2)),
+        Fat: double.parse((widget.product.Fat * scaleFactor).toStringAsFixed(2)),
+        Protein: double.parse((widget.product.Protein * scaleFactor).toStringAsFixed(2)),
+        Sugar: double.parse((widget.product.Sugar * scaleFactor).toStringAsFixed(2)),
       );
     });
   }
 
   void _addToMenu() {
     final scaledProduct = widget.product.copyWith(
-      Weight: _currentWeight.toDouble(),
-      Calories: (_scaledProduct.Calories).toDouble(),
-      Carbohydrates: (_scaledProduct.Carbohydrates).toDouble(),
-      Fat: (_scaledProduct.Fat).toDouble(),
-      Protein: (_scaledProduct.Protein).toDouble(),
-      Sugar: (_scaledProduct.Sugar).toDouble(),
+      Weight: double.parse((_currentWeight).toStringAsFixed(2)),
+      Calories: double.parse((_scaledProduct.Calories).toStringAsFixed(2)),
+      Carbohydrates: double.parse((_scaledProduct.Carbohydrates).toStringAsFixed(2)),
+      Fat: double.parse((_scaledProduct.Fat).toStringAsFixed(2)),
+      Protein: double.parse((_scaledProduct.Protein).toStringAsFixed(2)),
+      Sugar: double.parse((_scaledProduct.Sugar).toStringAsFixed(2)),
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
     );
 
     BlocProvider.of<MenuBloc>(context).add(
@@ -115,7 +114,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ElevatedButton(
               onPressed: _addToMenu,
               child: Text('Add to Menu'),
-
             ),
           ],
         ),

@@ -20,6 +20,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<AddProduct>(_mapAddProductEvent);
     on<UpdateProduct>(_mapUpdateProductEvent);
     on<DeleteProduct>(_mapDeleteProductEvent);
+    on<LoadProductByName>(_mapLoadProductByNameEvent);
   }
 
   // Event Handlers
@@ -64,6 +65,21 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(state.copyWith(status: ProductStatus.success, products: updatedProducts));
     } catch (e) {
       emit(state.copyWith(status: ProductStatus.error, message: 'Failed to delete product'));
+    }
+  }
+
+  void _mapLoadProductByNameEvent(LoadProductByName event, Emitter<ProductState> emit) async {
+    try {
+      emit(state.copyWith(status: ProductStatus.loading));
+      final product = await productRepository.getProductByName(event.name);
+
+      if (product != null) {
+        emit(state.copyWith(status: ProductStatus.success, products: [product]));
+      } else {
+        emit(state.copyWith(status: ProductStatus.error, message: 'Product not found'));
+      }
+    } catch (e) {
+      emit(state.copyWith(status: ProductStatus.error, message: 'Failed to load product by name'));
     }
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:horizontal_week_calendar/horizontal_week_calendar.dart';
 import 'package:product_repository/models/product.dart';
+import '../../products/bloc/bloc.dart';
 import '../../products/view/meal_product_list_screen.dart';
 import '../../products/view/product_list_screen.dart';
 import '../../statistics/home/home.dart';
@@ -11,6 +12,36 @@ import 'widgets/header_title.dart';
 import 'package:menu_repository/model/model.dart';
 import '../../authorization/app/bloc/app_bloc.dart';
 import '../bloc/bloc.dart';
+
+Product calculateMacros(ProductWeight productWeight, List<Product> allProducts) {
+  final product = allProducts.firstWhere(
+        (p) => p.Name.toLowerCase() == productWeight.name.toLowerCase(),
+    orElse: () => Product(
+      id: '',
+      Name: productWeight.name,
+      Weight: 0,
+      Calories: 0,
+      Carbohydrates: 0,
+      Fat: 0,
+      Protein: 0,
+      Sugar: 0,
+    ),
+  );
+
+  final factor = productWeight.weight / 100;
+  return Product(
+    id: product.id,
+    Name: product.Name,
+    Weight: productWeight.weight,
+    Calories: product.Calories * factor,
+    Carbohydrates: product.Carbohydrates * factor,
+    Fat: product.Fat * factor,
+    Protein: product.Protein * factor,
+    Sugar: product.Sugar * factor,
+  );
+}
+
+
 
 class MenuSuccess extends StatefulWidget {
   const MenuSuccess({super.key, required this.menu, required this.date});
@@ -67,74 +98,101 @@ class _MenuSuccessState extends State<MenuSuccess> {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state.status == MenuStatus.success) {
                     final menu = state.menu;
+                    final allProducts = context.read<ProductBloc>().state.products;
+
                     if (menu != null && menu.isNotEmpty) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 8),
-                          ...menu.map((menuItem) {
+                          ...menu.map((menuItem) => menuItem.products).expand((products) => products).map((productWeight) {
+                            final enrichedProduct = calculateMacros(productWeight, allProducts);
+
                             return Container(
-                              margin: const EdgeInsets.symmetric(vertical: 8.0),
+                              width: double.infinity,
+                              margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
                               padding: const EdgeInsets.all(16.0),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(12.0),
+                                borderRadius: BorderRadius.circular(16.0),
                                 border: Border.all(
                                   color: Colors.grey.shade300,
                                   width: 1.5,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
+                                    color: Colors.grey.withOpacity(0.2),
                                     spreadRadius: 2,
-                                    blurRadius: 5,
-                                    offset: const Offset(0, 3),
+                                    blurRadius: 6,
+                                    offset: const Offset(0, 2),
                                   ),
                                 ],
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Text(
+                                    enrichedProduct.Name,
+                                    style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                                  ),
                                   const SizedBox(height: 4),
-                                  ...menuItem.Names.map((name) {
-                                    return Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          ' $name',
-                                          style: Theme.of(context).textTheme.titleLarge,
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(Icons.delete, color: Colors.red),
-                                          onPressed: () {
-                                            final productToRemove = Product(
-                                              id: 'id',
-                                              Name: name,
-                                              Weight: 0,
-                                              Calories: 0,
-                                              Carbohydrates: 0,
-                                              Fat: 0,
-                                              Protein: 0,
-                                              Sugar: 0,
-                                            );
-                                            context.read<MenuBloc>().add(
-                                              RemoveProductFromMenu(
-                                                product: productToRemove,
-                                                date: _selectedDate,
-                                                userId: context.read<AppBloc>().state.user.id,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  }).toList(),
+                                  Text(
+                                    '${enrichedProduct.Weight}g',
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),
+                                  ),
+                                  const Divider(height: 16, thickness: 1, color: Colors.grey), // Dzielnik
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Calories:', style: TextStyle(fontWeight: FontWeight.w500)),
+                                      Text('${enrichedProduct.Calories?.toStringAsFixed(1) ?? 'N/A'}'),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Protein:', style: TextStyle(fontWeight: FontWeight.w500)),
+                                      Text('${enrichedProduct.Protein?.toStringAsFixed(1) ?? 'N/A'}g'),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Carbs:', style: TextStyle(fontWeight: FontWeight.w500)),
+                                      Text('${enrichedProduct.Carbohydrates?.toStringAsFixed(1) ?? 'N/A'}g'),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Fat:', style: TextStyle(fontWeight: FontWeight.w500)),
+                                      Text('${enrichedProduct.Fat?.toStringAsFixed(1) ?? 'N/A'}g'),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: IconButton(
+                                      icon: const Icon(Icons.delete, color: Colors.red),
+                                      onPressed: () {
+                                        context.read<MenuBloc>().add(
+                                          RemoveProductFromMenu(
+                                            productId: productWeight.id,
+                                            productName: enrichedProduct.Name,
+                                            date: _selectedDate,
+                                            userId: context.read<AppBloc>().state.user.id,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
                                 ],
                               ),
                             );
                           }).toList(),
                         ],
                       );
+
                     } else {
                       return const Text('No products for this day.');
                     }
@@ -143,6 +201,7 @@ class _MenuSuccessState extends State<MenuSuccess> {
                   }
                 },
               ),
+
               const SizedBox(height: 16),
               Center(
                 child: ElevatedButton(
@@ -156,7 +215,7 @@ class _MenuSuccessState extends State<MenuSuccess> {
                       ),
                     );
                     if (shouldRefresh == true) {
-                      await Future.delayed(const Duration(milliseconds: 100));
+                      await Future.delayed(const Duration(milliseconds: 200));
                       context.read<MenuBloc>().add(
                         GetMenuWithDate(
                           date: _selectedDate,

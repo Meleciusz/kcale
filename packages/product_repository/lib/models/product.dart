@@ -46,4 +46,17 @@ class Product {
         Sugar: Sugar ?? this.Sugar
     );
   }
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'] ?? '',
+      Name: json['Name'] ?? '',
+      Weight: json['Weight']?.toDouble() ?? 0.0,
+      Calories: json['Calories']?.toDouble() ?? 0.0,
+      Carbohydrates: json['Carbohydrates']?.toDouble() ?? 0.0,
+      Fat: json['Fat']?.toDouble() ?? 0.0,
+      Protein: json['Protein']?.toDouble() ?? 0.0,
+      Sugar: json['Sugar']?.toDouble() ?? 0.0,
+    );
+  }
 }
