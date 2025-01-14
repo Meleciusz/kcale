@@ -12,7 +12,6 @@ class WidgetSuccessStats extends StatefulWidget {
   final List<Menu>? menu;
   final int? actualIndex;
 
-
   @override
   State<WidgetSuccessStats> createState() => _WidgetSuccessState();
 }
@@ -41,44 +40,49 @@ class _WidgetSuccessState extends State<WidgetSuccessStats> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
 
-     final List<Widget> screens = <Widget>[
-       StatsScreen(time: 0, menu: widget.menu!),
-       StatsScreen(time: 7, menu: widget.menu!),
-       StatsScreen(time: 30, menu: widget.menu!),
+    final List<Widget> screens = <Widget>[
+      StatsScreen(time: 0, menu: widget.menu!),
+      StatsScreen(time: 7, menu: widget.menu!),
+      StatsScreen(time: 30, menu: widget.menu!),
     ];
 
     return MaterialApp(
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Center(child: Text('Statystyki'),),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Center(child: Text('Statistics')),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          body: Center(
-            child: screens.elementAt(selectedIndex),
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.today),
-                label: 'Dzień',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_today),
-                label: 'Tydzień',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_month),
-                label: 'Miesiąc',
-              ),
-            ],
-            currentIndex: selectedIndex,
-            selectedItemColor: Colors.blue,
-            onTap: _onItemTapped,
-          ),
-        )
+        ),
+        body: Center(
+          child: screens.elementAt(selectedIndex),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.today),
+              label: 'Day',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today),
+              label: 'Week',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_month),
+              label: 'Month',
+            ),
+          ],
+          currentIndex: selectedIndex,
+          selectedItemColor: Colors.blue,
+          onTap: _onItemTapped,
+        ),
+      ),
     );
   }
 }

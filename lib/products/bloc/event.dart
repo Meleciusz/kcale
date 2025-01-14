@@ -35,3 +35,11 @@ class DeleteProduct extends ProductEvent {
   @override
   List<Object?> get props => [productId];
 }
+
+class LoadProductByName extends ProductEvent {
+  final String name;
+  const LoadProductByName(this.name);
+
+  @override
+  List<Object> get props => [name];
+}

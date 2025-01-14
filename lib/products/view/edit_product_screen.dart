@@ -1,16 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kcale/products/bloc/bloc.dart';
 import 'package:product_repository/models/product.dart';
 
-class AddProductScreen extends StatefulWidget {
-  const AddProductScreen({super.key});
+import '../bloc/bloc.dart';
+
+class EditProductScreen extends StatefulWidget {
+  final Product product;
+
+  const EditProductScreen({super.key, required this.product});
 
   @override
-  State<AddProductScreen> createState() => _AddProductScreenState();
+  State<EditProductScreen> createState() => _EditProductScreenState();
 }
 
-class _AddProductScreenState extends State<AddProductScreen> {
+class _EditProductScreenState extends State<EditProductScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();
@@ -19,6 +23,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final _carbsController = TextEditingController();
   final _fatController = TextEditingController();
   final _sugarController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _nameController.text = widget.product.Name;
+    _caloriesController.text = widget.product.Calories.toString();
+    _proteinController.text = widget.product.Protein.toString();
+    _carbsController.text = widget.product.Carbohydrates.toString();
+    _fatController.text = widget.product.Fat.toString();
+    _sugarController.text = widget.product.Sugar.toString();
+  }
 
   @override
   void dispose() {
@@ -35,7 +51,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Product'),
+        title: const Text('Edit Product'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -91,23 +107,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    final product = Product(
-                      id: '',
+                    final updatedProduct = widget.product.copyWith(
                       Name: _nameController.text,
-                      Weight: 100,
                       Calories: int.tryParse(_caloriesController.text) ?? 0,
                       Carbohydrates: double.tryParse(_carbsController.text) ?? 0,
                       Fat: double.tryParse(_fatController.text) ?? 0,
                       Protein: double.tryParse(_proteinController.text) ?? 0,
-                      Sugar: double.tryParse(_sugarController.text) ?? 0
+                      Sugar: double.tryParse(_sugarController.text) ?? 0,
                     );
 
-                    context.read<ProductBloc>().add(AddProduct(product: product));
+                    context.read<ProductBloc>().add(UpdateProduct(product: updatedProduct));
 
                     Navigator.pop(context);
                   }
                 },
-                child: const Text('Add Product'),
+                child: const Text('Save Changes'),
               ),
             ],
           ),

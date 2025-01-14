@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Product {
   String id;
 
@@ -17,8 +15,6 @@ class Product {
 
   num Sugar;
 
-  Timestamp ModifiedDate;
-
   Product({
     required this.id,
     required this.Name,
@@ -27,8 +23,7 @@ class Product {
     required this.Carbohydrates,
     required this.Fat,
     required this.Protein,
-    required this.Sugar,
-    required this.ModifiedDate
+    required this.Sugar
 });
 
   Product copyWith({
@@ -39,8 +34,7 @@ class Product {
     num? Carbohydrates,
     num? Fat,
     num? Protein,
-    num? Sugar,
-    Timestamp? ModifiedDate,
+    num? Sugar
 }){
     return Product(id: id ?? this.id,
         Name: Name ?? this.Name,
@@ -49,8 +43,20 @@ class Product {
         Carbohydrates: Carbohydrates ?? this.Carbohydrates,
         Fat: Fat ?? this.Fat,
         Protein: Protein ?? this.Protein,
-        Sugar: Sugar ?? this.Sugar,
-        ModifiedDate: ModifiedDate ?? this.ModifiedDate,
+        Sugar: Sugar ?? this.Sugar
+    );
+  }
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'] ?? '',
+      Name: json['Name'] ?? '',
+      Weight: json['Weight']?.toDouble() ?? 0.0,
+      Calories: json['Calories']?.toDouble() ?? 0.0,
+      Carbohydrates: json['Carbohydrates']?.toDouble() ?? 0.0,
+      Fat: json['Fat']?.toDouble() ?? 0.0,
+      Protein: json['Protein']?.toDouble() ?? 0.0,
+      Sugar: json['Sugar']?.toDouble() ?? 0.0,
     );
   }
 }

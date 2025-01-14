@@ -1,41 +1,46 @@
-/*
-Menu - class that describes menu items
- */
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-class Menu{
-
-  //id of menu - unique identifier
+class ProductWeight {
   String id;
+  String name;
+  num weight;
 
-  //id of adding User
+  ProductWeight({
+    required this.id,
+    required this.name,
+    required this.weight,
+  });
+
+  factory ProductWeight.fromMap(Map<String, dynamic> map) {
+    return ProductWeight(
+      id: map['id'],
+      name: map['name'],
+      weight: map['weight']?.toDouble() ?? 0.0,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'weight': weight,
+    };
+  }
+}
+
+class Menu {
+  String id;
   String userId;
-
-  //name of products
-  List<String> Names;
-
-  //Sum of calories
+  List<ProductWeight> products;
   num CaloriesSum;
-
-  //Sum of carbohydrates
   num CarbohydrateSum;
-
-  //Sum of fats
   num FatSum;
-
-  //Sum of protein
   num ProteinSum;
-
-  //Sum of sugar
   num SugarSum;
-
-  //date when the menu was created
   num Date;
 
   Menu({
     required this.id,
     required this.userId,
-    required this.Names,
+    required this.products,
     required this.CaloriesSum,
     required this.CarbohydrateSum,
     required this.FatSum,
@@ -47,24 +52,24 @@ class Menu{
   Menu copyWith({
     String? id,
     String? userId,
-    List<String>? Names,
+    List<ProductWeight>? products,
     num? CaloriesSum,
     num? CarbohydrateSum,
     num? FatSum,
     num? ProteinSum,
     num? SugarSum,
     num? Date,
-  }){
+  }) {
     return Menu(
-        id: id ?? this.id,
-        userId: userId?? this.userId,
-        Names: Names?? this.Names,
-        CaloriesSum: CaloriesSum?? this.CaloriesSum,
-        CarbohydrateSum: CarbohydrateSum?? this.CarbohydrateSum,
-        FatSum: FatSum?? this.FatSum,
-        ProteinSum: ProteinSum ?? this.ProteinSum,
-        SugarSum: SugarSum ?? this.SugarSum,
-        Date: Date?? this.Date,
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      products: products ?? this.products,
+      CaloriesSum: CaloriesSum ?? this.CaloriesSum,
+      CarbohydrateSum: CarbohydrateSum ?? this.CarbohydrateSum,
+      FatSum: FatSum ?? this.FatSum,
+      ProteinSum: ProteinSum ?? this.ProteinSum,
+      SugarSum: SugarSum ?? this.SugarSum,
+      Date: Date ?? this.Date,
     );
   }
 }
