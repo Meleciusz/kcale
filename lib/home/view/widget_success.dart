@@ -101,9 +101,71 @@ class _MenuSuccessState extends State<MenuSuccess> {
                     final allProducts = context.read<ProductBloc>().state.products;
 
                     if (menu != null && menu.isNotEmpty) {
+                      final currentMenu = menu.first;
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                            padding: const EdgeInsets.all(16.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16.0),
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                                width: 1.5,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  spreadRadius: 2,
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Calories:', style: TextStyle(fontWeight: FontWeight.w500)),
+                                    Text('${currentMenu.CaloriesSum.toStringAsFixed(1)} kcal'),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Protein:', style: TextStyle(fontWeight: FontWeight.w500)),
+                                    Text('${currentMenu.ProteinSum.toStringAsFixed(1)} g'),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Carbohydrates:', style: TextStyle(fontWeight: FontWeight.w500)),
+                                    Text('${currentMenu.CarbohydrateSum.toStringAsFixed(1)} g'),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Fat:', style: TextStyle(fontWeight: FontWeight.w500)),
+                                    Text('${currentMenu.FatSum.toStringAsFixed(1)} g'),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Sugar:', style: TextStyle(fontWeight: FontWeight.w500)),
+                                    Text('${currentMenu.SugarSum.toStringAsFixed(1)} g'),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
                           const SizedBox(height: 8),
                           ...menu.map((menuItem) => menuItem.products).expand((products) => products).map((productWeight) {
                             final enrichedProduct = calculateMacros(productWeight, allProducts);
